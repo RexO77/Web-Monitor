@@ -19,6 +19,12 @@ def check_website_status(url):
         else:
             if status_code == 200:
                 return 'Up'
+            elif status_code == 404:
+                return 'Down (Not Found)'
+            elif status_code == 403:
+                return 'Down (Forbidden)'
+            elif status_code == 500:
+                return 'Down (Internal Server Error)'
             else:
                 return f'Down (Status Code: {status_code})'
     except requests.exceptions.RequestException as e:
