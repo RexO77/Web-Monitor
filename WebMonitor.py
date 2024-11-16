@@ -78,14 +78,16 @@ def main():
     col1, col2, col3 = st.columns([1,2,1])
     
     with col2:
-        # Input field with proper label
-        website_input = st.text_input(
-            label="Website URL",
-            placeholder="Enter website URL (e.g., google.com)",
-            label_visibility="collapsed"
-        )
-        
-        if st.button("Check Status", use_container_width=True):
+        with st.form(key='website_form'):
+            # Input field with proper label
+            website_input = st.text_input(
+                label="Website URL",
+                placeholder="Enter website URL (e.g., google.com)",
+                label_visibility="collapsed"
+            )
+            submit_button = st.form_submit_button(label='Check Status')
+
+        if submit_button:
             if website_input:
                 with st.spinner('Checking website status...'):
                     # Add artificial delay for better UX
