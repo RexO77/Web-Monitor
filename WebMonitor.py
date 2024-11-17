@@ -103,6 +103,5 @@ def main():
                         st.error(f"❌ **{website_input}** is **{status}**")
             else:
                 st.warning("⚠️ Please enter a website URL")
-
 if __name__ == "__main__":
     main()
