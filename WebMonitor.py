@@ -39,9 +39,6 @@ def main():
         .stApp {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
         }
-        div[data-testid="stToolbar"] {
-            display: none;
-        }
         .stTextInput > div > div {
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
@@ -103,5 +100,8 @@ def main():
                         st.error(f"❌ **{website_input}** is **{status}**")
             else:
                 st.warning("⚠️ Please enter a website URL")
+
+    
+
 if __name__ == "__main__":
     main()
