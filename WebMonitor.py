@@ -76,13 +76,16 @@ def main():
     
     with col2:
         with st.form(key='website_form'):
-            # Input field with proper label
-            website_input = st.text_input(
-                label="Website URL",
-                placeholder="Enter website URL (e.g., google.com)",
-                label_visibility="collapsed"
-            )
-            submit_button = st.form_submit_button(label='Check Status')
+            input_col, button_col = st.columns([4, 1])
+            with input_col:
+                # Input field with proper label
+                website_input = st.text_input(
+                    label="Website URL",
+                    placeholder="Enter website URL (e.g., google.com)",
+                    label_visibility="collapsed"
+                )
+            with button_col:
+                submit_button = st.form_submit_button(label='Check Status')
 
         if submit_button:
             if website_input:
@@ -100,8 +103,5 @@ def main():
                         st.error(f"❌ **{website_input}** is **{status}**")
             else:
                 st.warning("⚠️ Please enter a website URL")
-
-    
-
 if __name__ == "__main__":
     main()
