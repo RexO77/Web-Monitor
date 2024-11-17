@@ -33,79 +33,75 @@ def check_website_status(url):
 def main():
     st.set_page_config(page_title="Website Status Monitor", layout="centered")
     
-    # Custom CSS with glowing gradient border for the search bar
     st.markdown("""
         <style>
-        /* Background and general styles */
         .stApp {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
         }
-
-        /* Glowing gradient border container */
-        .gradient-border {
-            background: #0b090a;
-            padding: 2px;
-            border-radius: 10px;
-            background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-            filter: brightness(120%);
-            box-shadow: 0 0 20px rgba(65, 88, 208, 0.6), 
-                        0 0 20px rgba(200, 80, 192, 0.6), 
-                        0 0 20px rgba(255, 204, 112, 0.6);
+        
+        /* Clean form layout */
+        [data-testid="stForm"] > div:first-child {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 15px;
+        }
+        
+        /* Gradient search bar */
+        .stTextInput {
+            flex: 1;
+        }
+        
+        .stTextInput > div > div {
+            padding: 2px;
+            position: relative;
+            z-index: 1;
+            background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+            border-radius: 10px;
         }
 
-        /* Inner container to hold the form elements */
-        .inner-container {
-            background-color: #0b090a;
+        .stTextInput > div > div:before {
+            z-index: -1;
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+            filter: blur(20px);
+        }
+
+        .stTextInput input {
+            background-color: #0b090a !important;
+            border: none !important;
+            color: white !important;
+            font-size: 16px;
+            padding: 15px !important;
             border-radius: 8px;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
             width: 100%;
         }
 
-        /* Style for the text input */
-        .styled-input {
-            flex: 1;
-            background-color: rgba(255, 255, 255, 0.05);
+        /* Simple button */
+        .stButton button {
+            background: #4a90e2;
             border: none;
-            border-radius: 8px;
-            padding: 10px;
             color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
             font-size: 16px;
-            outline: none;
-        }
-
-        /* Style for the submit button */
-        .styled-button {
-            background: linear-gradient(90deg, #4a90e2 0%, #67b26f 100%);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            padding: 10px 20px;
-            margin-left: 10px;
-            cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 16px;
+            min-width: 120px;
         }
 
-        .styled-button:hover {
+        .stButton button:hover {
+            background: #357abd;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        /* Titles and descriptions */
         h1, p {
             color: white !important;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             text-align: center;
-        }
-
-        /* Spinner color */
-        div[data-testid="stSpinner"] {
-            color: white !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         </style>
     """, unsafe_allow_html=True)
@@ -128,7 +124,7 @@ def main():
                 label_visibility="collapsed",
                 key="search_input"
             )
-            submit_button = st.form_submit_button(label='Check', key='submit_button')
+            submit_button = st.form_submit_button(label='Check')  # Removed key parameter
         
         st.markdown('</div></div>', unsafe_allow_html=True)
         
