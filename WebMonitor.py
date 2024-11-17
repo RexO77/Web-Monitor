@@ -33,34 +33,77 @@ def check_website_status(url):
 def main():
     st.set_page_config(page_title="Website Status Monitor", layout="centered")
     
-    # Custom CSS with dark gradient and animations
+    # Custom CSS with glowing gradient border for the search bar
     st.markdown("""
         <style>
+        /* Background and general styles */
         .stApp {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
         }
-        .stTextInput > div > div {
-            background-color: rgba(255, 255, 255, 0.05);
+
+        /* Glowing gradient border container */
+        .gradient-border {
+            background: #0b090a;
+            padding: 2px;
             border-radius: 10px;
+            background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+            filter: brightness(120%);
+            box-shadow: 0 0 20px rgba(65, 88, 208, 0.6), 
+                        0 0 20px rgba(200, 80, 192, 0.6), 
+                        0 0 20px rgba(255, 204, 112, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .stTextInput input {
+
+        /* Inner container to hold the form elements */
+        .inner-container {
+            background-color: #0b090a;
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Style for the text input */
+        .styled-input {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
             color: white;
+            font-size: 16px;
+            outline: none;
         }
-        .stButton > button {
+
+        /* Style for the submit button */
+        .styled-button {
             background: linear-gradient(90deg, #4a90e2 0%, #67b26f 100%);
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             color: white;
+            padding: 10px 20px;
+            margin-left: 10px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 16px;
         }
-        .stButton > button:hover {
+
+        .styled-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
+
+        /* Titles and descriptions */
         h1, p {
             color: white !important;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
         }
+
+        /* Spinner color */
         div[data-testid="stSpinner"] {
             color: white !important;
         }
@@ -68,33 +111,33 @@ def main():
     """, unsafe_allow_html=True)
 
     # Title and description
-    st.markdown("<h1 style='text-align: center; padding-top: 2rem;'>🌐 Website Status Monitor</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; margin-bottom: 2rem;'>Check if a website is up or down</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='padding-top: 2rem;'>🌐 Website Status Monitor</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='margin-bottom: 2rem;'>Check if a website is up or down</p>", unsafe_allow_html=True)
 
-    # Create three columns for centering
+    # Center the search bar
     col1, col2, col3 = st.columns([1,2,1])
     
     with col2:
+        st.markdown('<div class="gradient-border">', unsafe_allow_html=True)
+        st.markdown('<div class="inner-container">', unsafe_allow_html=True)
+        
         with st.form(key='website_form'):
-            input_col, button_col = st.columns([4, 1])
-            with input_col:
-                # Input field with proper label
-                website_input = st.text_input(
-                    label="Website URL",
-                    placeholder="Enter website URL (e.g., google.com)",
-                    label_visibility="collapsed"
-                )
-            with button_col:
-                submit_button = st.form_submit_button(label='Check Status')
-
+            website_input = st.text_input(
+                label="",
+                placeholder="Enter website URL (e.g., google.com)",
+                label_visibility="collapsed",
+                key="search_input"
+            )
+            submit_button = st.form_submit_button(label='Check', key='submit_button')
+        
+        st.markdown('</div></div>', unsafe_allow_html=True)
+        
         if submit_button:
             if website_input:
                 with st.spinner('Checking website status...'):
-                    # Add artificial delay for better UX
                     time.sleep(0.5)
                     status = check_website_status(website_input.strip())
                     
-                    # Status display with custom styling
                     if 'Up' in status:
                         st.success(f"✅ **{website_input}** is **Up**")
                         if 'Redirected' in status:
@@ -103,5 +146,6 @@ def main():
                         st.error(f"❌ **{website_input}** is **{status}**")
             else:
                 st.warning("⚠️ Please enter a website URL")
+
 if __name__ == "__main__":
     main()
